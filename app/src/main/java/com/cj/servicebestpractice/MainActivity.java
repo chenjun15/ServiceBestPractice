@@ -51,9 +51,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(this, DownloadService.class);
         startService(intent);   // 启动服务
         bindService(intent, mConnection, BIND_AUTO_CREATE); // 绑定服务
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }
     }
 
@@ -83,8 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
         case 1:
-            Log.d(TAG, "onRequestPermissionsResult: grantResults.length=" + grantResults.length + ", grantResults[0]=" + grantResults[0] + ", grantResults[1]=" + grantResults[1]);
-            if (grantResults.length > 0 && (grantResults[0] != PackageManager.PERMISSION_GRANTED || grantResults[1] != PackageManager.PERMISSION_GRANTED)) {
+            if (grantResults.length > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "拒绝权限将无法使用程序", Toast.LENGTH_SHORT).show();
                 finish();
             }
